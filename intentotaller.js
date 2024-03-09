@@ -79,16 +79,15 @@ if(destino.toLowerCase() == `san andres`){
             else{
                 valormaleta= 20000
                 console.info(`El valor a pagar por la maleta es de ${valormaleta}`)}
-            }if (destinodescuento.toLowerCase == `san andres`){
+            }
+
+            if (destinodescuento.toLowerCase() == `san andres`){
                 descuentomaleta = valormaleta*15/100;
                 totalmaleta = valormaleta - descuentomaleta
                 console.info(`El destino al que va el pasajero tiene descuento en el equipaje por lo que el costo a pagar por la maleta es de ${totalmaleta}`)
 
             }
-    
-
-
-            
+           
 }else if(destino.toLowerCase()== `pereira`){
     contadorpereira++;
     contadorMpereira = parseFloat(contadorMpereira,10)
