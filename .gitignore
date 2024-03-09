@@ -1,0 +1,18 @@
+node_modules
+
+do {
+    if (destino != `san andres`|| destino != `pereira` || destino != `medellin` || destino != `cali` || destino != `manizales` || destino != `barranquilla` || destino !=`bogota`){
+        console.error(`La ciudad que ingreso no esta en el sistema `);   
+    }
+    else{
+        let pmaleta = readlineSync.question(`Ingrese el peso de la maleta del pasajero`);
+    }
+    
+}while (origen == true);
+readlineSync.question(`Ingrese el origen desde el que viaja `);
+
+
+
+if (destino == "san andres"){
+    pmaleta2+=pmaleta;
+}
