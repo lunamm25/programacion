@@ -30,6 +30,14 @@ maxmanizales = 0;
 maxbarranquilla = 0;
 maxbogota = 0;
 
+sobrepesosanandres = 0;
+sobrepesopereira = 0;
+sobrepesomedellin = 0;
+sobrepesocali = 0;
+sobrepesomanizales = 0;
+sobrepesobarranquilla = 0;
+sobrepesobogota = 0;
+
 function primerpaso(){
 
 
@@ -44,6 +52,9 @@ else{
     let destino = readlineSync.question(`Ingrese el destino al que viaja el pasajero: `);
    
 if(destino.toLowerCase() == `san andres`){
+    if(pmaleta>23){
+        sobrepesosanandres++;
+    }
     contadorsanandres++;
     contadorMsanandres= parseFloat(contadorMsanandres,10);
     contadorMsanandres += pmaleta;
@@ -57,10 +68,12 @@ if(destino.toLowerCase() == `san andres`){
     
     let gdueño = readlineSync.question(`Ingrese el genero del pasajero. F si es mujer o M si es hombre: `);
         if(gdueño.toLowerCase()== `f`){
+            sobrepesosanandres++;
             mmujeres++;
             maletasmujeres+=pmaleta;
             console.info(`El promedio total del peso de las maletas de las mujeres es de ${maletasmujeres/mmujeres}`)
                 if(pmaleta>23){ 
+                sobrepesosanandres++;
                 adicionalmaleta=pmaleta-23;
                 valormaleta=adicionalmaleta*5000 + 20000;
                 console.info(`El valor a pagar por la maleta con sobrepeso es de ${valormaleta}`);}
@@ -68,13 +81,17 @@ if(destino.toLowerCase() == `san andres`){
                 valormaleta= 20000
                 console.info(`El valor a pagar por la maleta es de ${valormaleta}`)}}
         else if (gdueño.toLowerCase()== `m`){
+
             mhombres++;
             maletashombres+=pmaleta;
             console.info(`El promedio total del peso de las maletas de los hombres es de ${maletashombres/mhombres}`)
             if(pmaleta>23){
+                sobrepesosanandres++;
                 adicionalmaleta=pmaleta-23;
                 valormaleta=adicionalmaleta*5000 + 20000;
-                console.info(`El valor a pagar por la maleta con sobrepeso es de ${valormaleta}`);}
+                console.info(`El valor a pagar por la maleta con sobrepeso es de ${valormaleta}`);
+                sobrepesosanandres++;
+            }
 
             else{
                 valormaleta= 20000
@@ -89,6 +106,9 @@ if(destino.toLowerCase() == `san andres`){
             }
            
 }else if(destino.toLowerCase()== `pereira`){
+    if(pmaleta>23){
+        sobrepesopereira++;
+    }
     contadorpereira++;
     contadorMpereira = parseFloat(contadorMpereira,10)
     contadorMpereira+= pmaleta;
@@ -103,6 +123,7 @@ if(destino.toLowerCase() == `san andres`){
             maletasmujeres+=pmaleta;
             console.info(`El promedio total del peso de las maletas de las mujeres es de ${maletasmujeres/mmujeres}`)
                 if(pmaleta>23){ 
+                sobrepesopereira++;
                 adicionalmaleta=pmaleta-23;
                 valormaleta=adicionalmaleta*5000 + 20000;
                 console.info(`El valor a pagar por la maleta con sobrepeso es de ${valormaleta}`);}
@@ -114,6 +135,7 @@ if(destino.toLowerCase() == `san andres`){
             maletashombres+=pmaleta;
             console.info(`El promedio total del peso de las maletas de los hombres es de ${maletashombres/mhombres}`)
             if(pmaleta>23){
+                sobrepesopereira++;
                 adicionalmaleta=pmaleta-23;
                 valormaleta=adicionalmaleta*5000 + 20000;
                 console.info(`El valor a pagar por la maleta con sobrepeso es de ${valormaleta}`);}
@@ -128,6 +150,9 @@ if(destino.toLowerCase() == `san andres`){
 
             }
 }else if(destino.toLowerCase()== `medellin`){
+    if(pmaleta>23){
+        sobrepesomedellin++;
+    }
     contadormedellin++;
     contadorMmedellin = parseFloat(contadorMmedellin,10);
     contadorMmedellin+= pmaleta;
@@ -142,6 +167,7 @@ if(destino.toLowerCase() == `san andres`){
             maletasmujeres+=pmaleta;
             console.info(`El promedio total del peso de las maletas de las mujeres es de ${maletasmujeres/mmujeres}`)
                 if(pmaleta>23){ 
+                sobrepesomedellin++;
                 adicionalmaleta=pmaleta-23;
                 valormaleta=adicionalmaleta*5000 + 20000;
                 console.info(`El valor a pagar por la maleta con sobrepeso es de ${valormaleta}`);}
@@ -153,6 +179,7 @@ if(destino.toLowerCase() == `san andres`){
             maletashombres+=pmaleta;
             console.info(`El promedio total del peso de las maletas de los hombres es de ${maletashombres/mhombres}`)
             if(pmaleta>23){
+                sobrepesomedellin++;
                 adicionalmaleta=pmaleta-23;
                 valormaleta=adicionalmaleta*5000 + 20000;
                 console.info(`El valor a pagar por la maleta con sobrepeso es de ${valormaleta}`);}
@@ -166,6 +193,9 @@ if(destino.toLowerCase() == `san andres`){
 
             }
 }else if(destino.toLowerCase()== `cali`){
+    if(pmaleta>23){
+        sobrepesocali++;
+    }
     contadorcali++;
     contadorMcali= parseFloat(contadorMcali,10);
     contadorMcali+= pmaleta;
@@ -180,6 +210,7 @@ if(destino.toLowerCase() == `san andres`){
             maletasmujeres+=pmaleta;
             console.info(`El promedio total del peso de las maletas de las mujeres es de ${maletasmujeres/mmujeres}`)
                 if(pmaleta>23){ 
+                sobrepesocali++;
                 adicionalmaleta=pmaleta-23;
                 valormaleta=adicionalmaleta*5000 + 20000;
                 console.info(`El valor a pagar por la maleta con sobrepeso es de ${valormaleta}`);}
@@ -191,6 +222,7 @@ if(destino.toLowerCase() == `san andres`){
             maletashombres+=pmaleta;
             console.info(`El promedio total del peso de las maletas de los hombres es de ${maletashombres/mhombres}`)
             if(pmaleta>23){
+                sobrepesocali++;
                 adicionalmaleta=pmaleta-23;
                 valormaleta=adicionalmaleta*5000 + 20000;
                 console.info(`El valor a pagar por la maleta con sobrepeso es de ${valormaleta}`);}
@@ -204,6 +236,9 @@ if(destino.toLowerCase() == `san andres`){
 
             }
 }else if(destino.toLowerCase()== `manizales`){
+    if(pmaleta>23){
+        sobrepesomanizales++;
+    }
     contadormanizales++;
     contadorMmanizales=parseFloat(contadorMmanizales,10);
     contadorMmanizales+= pmaleta;
@@ -218,6 +253,7 @@ if(destino.toLowerCase() == `san andres`){
             maletasmujeres+=pmaleta;
             console.info(`El promedio total del peso de las maletas de las mujeres es de ${maletasmujeres/mmujeres}`)
                 if(pmaleta>23){ 
+                sobrepesomanizales++;
                 adicionalmaleta=pmaleta-23;
                 valormaleta=adicionalmaleta*5000 + 20000;
                 console.info(`El valor a pagar por la maleta con sobrepeso es de ${valormaleta}`);}
@@ -229,6 +265,7 @@ if(destino.toLowerCase() == `san andres`){
             maletashombres+=pmaleta;
             console.info(`El promedio total del peso de las maletas de los hombres es de ${maletashombres/mhombres}`)
             if(pmaleta>23){
+                sobrepesomanizales++;
                 adicionalmaleta=pmaleta-23;
                 valormaleta=adicionalmaleta*5000 + 20000;
                 console.info(`El valor a pagar por la maleta con sobrepeso es de ${valormaleta}`);}
@@ -242,6 +279,9 @@ if(destino.toLowerCase() == `san andres`){
 
             }
 }else if(destino.toLowerCase()== `barranquilla`){
+    if(pmaleta>23){
+        sobrepesobarranquilla++;
+    }
     contadorbarranquilla++;
     contadorMbarranquilla= parseFloat(contadorMbarranquilla,10);
     contadorMbarranquilla+= pmaleta;
@@ -256,6 +296,7 @@ if(destino.toLowerCase() == `san andres`){
             maletasmujeres+=pmaleta;
             console.info(`El promedio total del peso de las maletas de las mujeres es de ${maletasmujeres/mmujeres}`)
                 if(pmaleta>23){ 
+                sobrepesobarranquilla++;
                 adicionalmaleta=pmaleta-23;
                 valormaleta=adicionalmaleta*5000 + 20000;
                 console.info(`El valor a pagar por la maleta con sobrepeso es de ${valormaleta}`);}
@@ -267,6 +308,7 @@ if(destino.toLowerCase() == `san andres`){
             maletashombres+=pmaleta;
             console.info(`El promedio total del peso de las maletas de los hombres es de ${maletashombres/mhombres}`)
             if(pmaleta>23){
+                sobrepesobarranquilla++;
                 adicionalmaleta=pmaleta-23;
                 valormaleta=adicionalmaleta*5000 + 20000;
                 console.info(`El valor a pagar por la maleta con sobrepeso es de ${valormaleta}`);}
@@ -280,6 +322,9 @@ if(destino.toLowerCase() == `san andres`){
 
             }
 }else if(destino.toLowerCase()== `bogota`){
+    if(pmaleta>23){
+        sobrepesobogota++;
+    }
     contadorbogota++;
     contadorMbogota=parseFloat(contadorMbogota,10);
     contadorMbogota+= pmaleta;
@@ -294,6 +339,7 @@ if(destino.toLowerCase() == `san andres`){
             maletasmujeres+=pmaleta;
             console.info(`El promedio total del peso de las maletas de las mujeres es de ${maletasmujeres/mmujeres}`)
                 if(pmaleta>23){ 
+                sobrepesobogota++;
                 adicionalmaleta=pmaleta-23;
                 valormaleta=adicionalmaleta*5000 + 20000;
                 console.info(`El valor a pagar por la maleta con sobrepeso es de ${valormaleta}`);}
@@ -306,6 +352,7 @@ if(destino.toLowerCase() == `san andres`){
             maletashombres+=pmaleta;
             console.info(`El promedio total del peso de las maletas de los hombres es de ${maletashombres/mhombres}`)
             if(pmaleta>23){
+                sobrepesobogota++;
                 adicionalmaleta=pmaleta-23;
                 valormaleta=adicionalmaleta*5000 + 20000;
                 console.info(`El valor a pagar por la maleta con sobrepeso es de ${valormaleta}`);}
@@ -332,7 +379,11 @@ if(destino.toLowerCase() == `san andres`){
 while(i<vuelosdiarios){
     primerpaso();
     i++;
+   
 }
+
+
+
     if(contadorsanandres>contadorpereira && contadorsanandres>contadormedellin && contadorsanandres>contadorcali && contadorsanandres>contadormanizales && contadorsanandres>contadorbarranquilla && contadorsanandres>contadorbogota){
         console.info(`El destino al que mas se despacharon maletas fue San Andres con un total de maletas de ${contadorsanandres}`)
     }else if(contadorpereira>contadorsanandres && contadorpereira>contadormedellin && contadorpereira>contadorcali && contadorpereira>contadormanizales && contadorpereira>contadorbarranquilla && contadorpereira>contadorbogota){
@@ -346,7 +397,29 @@ while(i<vuelosdiarios){
     }else if (contadorbarranquilla>contadorsanandres && contadorbarranquilla>contadorpereira && contadorbarranquilla>contadormedellin && contadorbarranquilla>contadorcali && contadorbarranquilla>contadormanizales && contadorbarranquilla>contadorbogota){
         console.info(`El destino al que mas se despacharon maletas fue barranquilla con un total de maletas de ${contadorbarranquilla}`)
     }else if(contadorbogota>contadorsanandres && contadorbogota>contadorpereira && contadorbogota>contadormedellin && contadorbogota>contadormanizales && contadorbogota>contadorbarranquilla && contadorbogota>contadorcali){
-        console.info(`El destino al que mas se despacharon maletas fue bogota con un total de maletas de ${contadorbogota}`)
+    console.info(`El destino al que mas se despacharon maletas fue bogota con un total de maletas de ${contadorbogota}`)
     } 
+
+    if(sobrepesosanandres<sobrepesopereira && sobrepesosanandres<sobrepesomedellin && sobrepesosanandres<sobrepesocali && sobrepesosanandres<sobrepesomanizales && sobrepesosanandres<sobrepesobarranquilla && sobrepesosanandres<sobrepesobogota){
+        console.info(`El destino con menos multas por maletas con sobrepeso fue San Andrés con un total de maletas con sobrepeso de ${sobrepesosanandres}`)
+    }
+    else if(sobrepesopereira<sobrepesosanandres && sobrepesopereira<sobrepesomedellin && sobrepesopereira<sobrepesocali && sobrepesopereira<sobrepesomanizales && sobrepesopereira<sobrepesobarranquilla && sobrepesopereira<sobrepesobogota){
+        console.info(`El destino con menos multas por maletas con sobrepeso fue Pereira con un total de maletas con sobrepeso de ${sobrepesopereira}`)
+    }
+    else if(sobrepesomedellin<sobrepesopereira && sobrepesomedellin<sobrepesosanandres && sobrepesomedellin<sobrepesocali && sobrepesomedellin<sobrepesomanizales && sobrepesomedellin<sobrepesobarranquilla && sobrepesomedellin<sobrepesobogota){
+        console.info(`El destino con menos multas por maletas con sobrepeso fue Medellín con un total de maletas con sobrepeso de ${sobrepesomedellin}`)
+    }
+    else if(sobrepesocali<sobrepesopereira && sobrepesocali<sobrepesomedellin && sobrepesocali<sobrepesosanandres && sobrepesocali<sobrepesomanizales && sobrepesocali<sobrepesobarranquilla && sobrepesocali<sobrepesobogota){
+        console.info(`El destino con menos multas por maletas con sobrepeso fue Cali con un total de maletas con sobrepeso de ${sobrepesocali}`)
+    }
+    else if(sobrepesomanizales<sobrepesopereira && sobrepesomanizales<sobrepesomedellin && sobrepesomanizales<sobrepesosanandres && sobrepesomanizales<sobrepesocali && sobrepesomanizales<sobrepesobarranquilla && sobrepesomanizales<sobrepesobogota){
+        console.info(`El destino con menos multas por maletas con sobrepeso fue Manizales con un total de maletas con sobrepeso de ${sobrepesomanizales}`)
+    }
+    else if(sobrepesobarranquilla<sobrepesopereira && sobrepesobarranquilla<sobrepesomedellin && sobrepesobarranquilla<sobrepesosanandres && sobrepesobarranquilla<sobrepesomanizales && sobrepesobarranquilla<sobrepesocali && sobrepesobarranquilla<sobrepesobogota){
+        console.info(`El destino con menos multas por maletas con sobrepeso fue Barranquilla con un total de maletas con sobrepeso de ${sobrepesobarranquilla}`)
+    }
+    else if(sobrepesobogota<sobrepesopereira && sobrepesobogota<sobrepesomedellin && sobrepesobogota<sobrepesosanandres && sobrepesobogota<sobrepesomanizales && sobrepesobogota<sobrepesobarranquilla && sobrepesobogota<sobrepesocali){
+       console.info(`El destino con menos multas por maletas con sobrepeso fue Bogotá con un total de maletas con sobrepeso de ${sobrepesobogota}`)
+    }
  
     
