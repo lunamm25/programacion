@@ -625,6 +625,7 @@ if(colgate>=2){
     if (cremadental.marca == `colgate`){
         descuento = cremadental.precio * 0.15 
         total = cremadental.precio - descuento
+        console.info(`El precio con descuento de la crema dental es de ${total}`)
        }
        if (jabon.marca == `colgate`){
         descuento = jabon.precio * 0.15 
