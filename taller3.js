@@ -12,20 +12,22 @@ class Venta{
     throw new Error(`Se debe especificar la marca del producto`)}
     
     this.tipocliente = tipocliente;
-    this._valorproducto = valorproducto;
+    this.valorproducto = valorproducto;
     this.tipoproducto = marcaproducto;
+    
     }
+    
+    
     sumaVentas(objeto){
         if(this.valorproducto>0){
         
         let suma = this.valorproducto + objeto.valorproducto
         console.info(`La suma de los ingresos por ventas es de ${suma}`)
+            
     }else {
         console.info(`El valor del producto no puede ser negativo`)
     }
-} get valortiempo() {
-    return this._valorproducto;
-}
+} 
 }
     
     class Alquiler{
@@ -55,9 +57,7 @@ sumaAlquiler(objeto){
 
 
 }
-get valortiempo() {
-    return this._valortiempo;
-}}
+}
  computador1 = new Venta(`natural`,2000000,`asus`);
  computador2 = new Venta(`natural`,2000000,`hp`)
  computador1.sumaVentas(computador2);
