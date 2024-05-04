@@ -49,20 +49,24 @@ class Profesores{
         this.nombretipoprofesor = +readlineSync.question(`Ingrese un número según el tipo de profesor:1.Planta, 2.Catedratico o 3.Catedratico asociado `);
     }
 
-    clasificarprofesor(){
-        console.info(`Entré`)
+    clasificarprofesor(profesor){
         return this.valorhora
     }
 
-    pagarprofesorextras(){
-        let sumarpagoextra = this.asignaturaasignada * this.valorhora;
-        this.pagoextra = sumarpagoextra;
-        console.info(this.valorhora)
-        console.info(this.pagoextra)
-        console.info(this.asignaturaasignada)
-        return this.pagoextra;
+    pagarprofesor(){
+        this.clasificarprofesor();
+        let sumarpago = this.asignaturaasignada * this.valorhora;
+        this.valorpago = sumarpago;
+        return this.valorpago;
     }
-    
+    pagarporrecargos(){
+        let valorrecargo =this.pagarprofesor()* this.pagoextra;
+        return valorrecargo;
+    }
+    pagototalprofesor(){
+        this.totalpago=this.pagarprofesor()+this.pagarporrecargos();
+        return this.totalpago;
+    }
 }
    
 class Planta extends Profesores{
@@ -75,45 +79,66 @@ class Planta extends Profesores{
     clasificarprofesor(profesor){
     return this.valorhora = 40000;
     }
-    pagarprofesorextras(){
-        let sumarpagoextra = this.asignaturaasignada * this.valorhora;
-        this.pagoextra += sumarpagoextra;
-        return this.pagoextra;
+    pagarprofesor(){
+        this.clasificarprofesor();
+        let sumarpago = this.asignaturaasignada * this.valorhora;
+        this.valorpago = sumarpago;
+        return this.valorpago;
     }
-    
+    pagarporrecargos(){
+        let valorrecargo =this.pagarprofesor()* this.pagoextra;
+        return valorrecargo;
+    }
+    pagototalprofesor(){
+        this.totalpago=this.pagarprofesor()+this.pagarporrecargos();
+        return this.totalpago;
+    }
     }
 class Catedratico extends Profesores{
     constructor(nombre,correo,tienemaestria,nombretipoprofesor){
         super(nombre,correo,tienemaestria,nombretipoprofesor,50000)
 
     }
-        clasificarprofesor(){
+        clasificarprofesor(profesor){
     return this.valorhora = 50000;
     }
-    pagarprofesorextras(){
-        let sumarpagoextra = this.asignaturaasignada * this.valorhora;
-        this.pagoextra += sumarpagoextra;
-        return this.pagoextra;
+    pagarprofesor(){
+        this.clasificarprofesor();
+        let sumarpago = this.asignaturaasignada * this.valorhora;
+        this.valorpago = sumarpago;
+        return this.valorpago;
     }
-
+    pagarporrecargos(){
+        let valorrecargo =this.pagarprofesor()* this.pagoextra;
+        return valorrecargo;
+    }
+    pagototalprofesor(){
+        this.totalpago=this.pagarprofesor()+this.pagarporrecargos();
+        return this.totalpago;
+    }
 }
 class Catedraticoasociado extends Profesores{
     constructor(nombre,correo,tienemaestria,nombretipoprofesor){
         super(nombre,correo,tienemaestria,nombretipoprofesor,53500)
 
     }
-        clasificarprofesor(){
-            console.info("entré")
+        clasificarprofesor(profesor){
     return this.valorhora = 53500
     }
-    pagarprofesorextras(){
-        let sumarpagoextra = this.asignaturaasignada * this.valorhora;
-        console.info(this.asignaturaasignada)
-        console.info(this.valorhora)
-        this.pagoextra += sumarpagoextra;
-        return this.pagoextra;
+    pagarprofesor(){
+        this.clasificarprofesor();
+        let sumarpago = this.asignaturaasignada * this.valorhora;
+        this.valorpago = sumarpago;
+        return this.valorpago;
     }
-    
+    pagarporrecargos(){
+        let valorrecargo =this.pagarprofesor()* this.pagoextra;
+        return valorrecargo;
+    }
+    pagototalprofesor(){
+        this.totalpago=this.pagarprofesor()+this.pagarporrecargos();
+        return this.totalpago;
+    }
 }
 
 class Asignaturas{
@@ -165,7 +190,10 @@ else if(this.requieremaestria == false && profesor.tienemaestria == false){
 else if(this.requieremaestria == false && profesor.tienemaestria == true){
     this.profesor.asignaturaasignada = this.horasasignatura ; 
     console.info(`La asignatura fue asignada correctamente`)
-        }    
+        }  
+else{
+    console.info(`La asignatura no fue agregada`)
+}  
 }
 
 }
@@ -175,9 +203,10 @@ class Programa {
     asignatura = new Asignaturas
     recargo = 0;
     pagototalprofesores = 0;
-    constructor(nombreprograma,jornada){
+    constructor(nombreprograma,jornada,pagototalprofesores){
     this.nombreprograma = nombreprograma;
     this.jornada = jornada;
+    this.pagototalprofesores;
 }
 programaagregardatos(){
 this.nombreprograma = readlineSync.question(`Ingrese el nombre del programa: `);
@@ -196,39 +225,27 @@ this.recargo = this.recargo;
 }
 
 recargoextra(){
-    if(this.jornada.toLowerCase()==`diurno` && this.asignatura.requieremaestria==true ){
+    if(this.jornada.toLowerCase()==`diurno` && this.asignatura.requieremaestria==true && this.asignatura.profesor.tienemaestria ){
         console.info(`El recargo es del 10%`)
-        return this.recargo = 0.10;
+         this.recargo = 0.10;
+         this.asignatura.profesor.pagoextra=this.recargo
+         return this.recargo
     }
-    else if(this.jornada.toLowerCase() == `nocturno` && this.asignatura.requieremaestria ==true){
+    else if(this.jornada.toLowerCase() == `nocturno` && this.asignatura.requieremaestria ==true && this.asignatura.profesor.tienemaestria ){
         console.info(`El recargo es del 15%`)
-        return this.recargo = 0.15
+        this.recargo = 0.15;
+        this.asignatura.profesor.pagoextra=this.recargo
+        return this.recargo
     }
 }
-pagoprofesores(){
-let totalhorasasignadas = 0;
-//Para que se itere spbre todas las asignaturas asignadas a ese profesor
-for (let i = 0; i < listaasignaturas.length; i++) {
-    if (listaasignaturas[i].profesor === this.asignatura.profesor) {
-        totalhorasasignadas += listaasignaturas[i].horasasignatura;
-    }
-}//Para calcular el total a pagar al profesor
-let totalapagarpago = totalhorasasignadas* this.asignatura.profesor.valorhora;
-let valorrecargo = this.recargoextra()* totalapagarpago;
-//Agregar el recargo al pago del profesor
-valorrecargo = this.asignatura.profesor.pagoextra
-totalapagarpago += valorrecargo;
-this.pagototalprofesores += totalapagarpago 
 
-this.asignatura.profesor.pagototalprofesores += totalapagarpago;
-
-    console.info(`El valor total a pagar al profesor con recargos es de ${totalapagarpago}`);
-
-}
 accederprofesor(){
     return this.asignatura.profesor.agregardatosprofesores()
 }
-
+pagoprofesoresprograma(){
+ this.pagototalprofesores =this.pagototalprofesores+ this.asignatura.profesor.pagototalprofesor();
+ return this.pagototalprofesores;
+} 
 }
 let listaprofes = [];
 let listaprogramas = [];
@@ -258,20 +275,18 @@ if(!numeroasignaturas){
         programaactual.asignatura = asignatura;
         listaasignaturas.push(asignatura);
         const profesor = new Profesores();
-        listaprofes.clasificarprofesor()
         profesor.agregardatosprofesores();
         //profesor.pagarprofesor();
        // profesor.pagoextra;
 
         let tipoprofesor;
-        asignatura.asignarprofesor(profesor);
         if(profesor.nombretipoprofesor==1){
             tipoprofesor = new Planta(profesor.nombre,profesor.correo,profesor.tienemaestria,profesor.nombretipoprofesor,profesor.valorhora);
         }
         else if(profesor.nombretipoprofesor==2){
             tipoprofesor = new Catedratico(profesor.nombre,profesor.correo,profesor.tienemaestria,profesor.nombretipoprofesor,profesor.valorhora);
         }
-        else if(profesor.tipoprofesor==3){
+        else if(profesor.nombretipoprofesor==3){
             tipoprofesor = new Catedraticoasociado(profesor.nombre,profesor.correo,profesor.tienemaestria,profesor.nombretipoprofesor,profesor.valorhora);
         }
         else{
@@ -279,9 +294,13 @@ if(!numeroasignaturas){
         }
 
         asignatura.profesor = tipoprofesor;
-        listaprofes.push(tipoprofesor)     
-        profesor.pagarprofesorextras(tipoprofesor);
-            
+        asignatura.asignarprofesor(tipoprofesor);
+        profesor.clasificarprofesor(tipoprofesor);
+        profesor.pagarprofesor(tipoprofesor);
+        listaprofes.push(tipoprofesor);     
+        programaactual.recargoextra();
+        programaactual.pagoprofesoresprograma();
+
     }
     
 }
@@ -289,20 +308,29 @@ if(!numeroasignaturas){
 for(let a=0; a<listaprogramas.length; a++){
     console.info(`El nombre del programa es ${listaprogramas[a].nombreprograma}`);
     console.info(`La jornada del programa es ${listaprogramas[a].jornada}`); 
-    
-}
-for(let a2 =0; a2<listaasignaturas.length; a2++){
-    console.info(`El nombre de la asignatura es ${listaasignaturas[a2].nombreasignatura}`);
-    console.info(`Las horas de la asignatura son ${listaasignaturas[a2].horasasignatura}`);
-    console.info(`La asignatura requiere maestria? ${listaasignaturas[a2].requieremaestria}`); 
-    console.info(`El nombre del profesor es ${listaprofes[a2].nombre}`);
-    console.info(`El correo del profesor es ${listaprofes[a2].correo}`);
-    console.info(`El profesor tiene maestria? ${listaprofes[a2].tienemaestria}`);
-    console.info(`${listaprogramas[a2].recargoextra()}`);
-    console.info(`El pago por recargos al profesor ${listaprofes[a2].nombre} es de ${listaprofes[a2].pagarprofesorextras()}`);
 
- if(listaprofes[a2].tienemaestria==false && listaasignaturas[a2].requieremaestria==true){
-        console.info(`El profesor no puede orientar la asignatura ya que no tiene maestria `)
-    }}
+    for(let a2 =0; a2<listaasignaturas.length; a2++){
+        console.info(`El nombre de la asignatura es ${listaasignaturas[a2].nombreasignatura}`);
+        console.info(`Las horas de la asignatura son ${listaasignaturas[a2].horasasignatura}`);
+        console.info(`La asignatura requiere maestria? ${listaasignaturas[a2].requieremaestria}`); 
+    
+        console.info(`El nombre del profesor es ${listaprofes[a2].nombre}`);
+        console.info(`El correo del profesor es ${listaprofes[a2].correo}`);
+        console.info(`El profesor tiene maestria? ${listaprofes[a2].tienemaestria}`);
+        if(listaasignaturas[a2].requieremaestria == true && listaprofes[a2].tienemaestria == true){
+        console.info(`${listaprogramas[a2].recargoextra()}`);
+        console.info(`El pago sin recargos al profesor ${listaprofes[a2].nombre} es de ${listaprofes[a2].pagarprofesor()}`);
+        console.info(`El pago por recargos diurnos y nocturnos al profesor ${listaprofes[a2].nombre} es de ${listaprofes[a2].pagarporrecargos()}`);
+    }
+        console.info(`El pago total de ${listaprofes[a2].nombre} es de ${listaprofes[a2].pagototalprofesor()}`);
+        if(listaprofes[a2].tienemaestria==false && listaasignaturas[a2].requieremaestria==true){
+            console.info(`El profesor no puede orientar la asignatura ya que no tiene maestria `)
+        }
+    }            console.info(`El pago total de los profesores del programa ${listaprogramas[a].nombreprograma} es de ${listaprogramas[a].pagoprofesoresprograma()}`);
+
+    }
+       
+
+
 
 
