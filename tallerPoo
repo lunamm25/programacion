@@ -1,0 +1,455 @@
+const readlineSync = require(`readline-sync`);
+
+class Profesor{
+    nombre = ``;
+    tienemaestria = true;
+    nombretipoprofesor = ``
+    valorhora = 0;
+    asignaturaasignada = 0;
+    #valorpago = 0;
+    #totalpago = 0;
+    #pagoextra = 0;
+    #totalpagoextra = 0;
+    cantidadprofesoresconmaestria= 0
+    constructor(nombre,correo,tienemaestria,nombretipoprofesor,valorhora){
+        this.nombre = nombre;
+        this.correo = correo;
+        this.tienemaestria = tienemaestria;
+        this.nombretipoprofesor = nombretipoprofesor
+        this.valorhora = valorhora
+        this.totalpago = 0;
+    }
+
+
+    set totalpago(nuevototalpago){
+        this.#totalpago = nuevototalpago
+    }
+    get totalpago(){
+        return this.#totalpago;
+    }
+    set valorpago(nuevovalorpago){
+        this.#valorpago = nuevovalorpago
+    }
+    get valorpago(){
+        return this.#valorpago;
+    }
+    set pagoextra(nuevopagoextra){
+        this.#pagoextra = nuevopagoextra
+    }
+    get pagoextra(){
+        return this.#pagoextra;
+    }
+    set totalpagoextra(nuevototalpagoextra){
+        this.#totalpagoextra = nuevototalpagoextra
+    }
+    get totalpagoextra(){
+        return this.#totalpagoextra;
+    }
+    agregardatosprofesores(){
+        this.nombre = readlineSync.question(`Ingrese el nombre del profesor: `);
+        if (this.nombre == ``){
+            throw new Error(`Debe ingresar el nombre: `);
+         }
+         
+         
+        this.correo = readlineSync.question(`Ingrese el correo del profesor: `);
+        if (this.correo == ``){
+            throw new Error(`Debe ingresar el correo: `);
+         
+         }
+         this.tienemaestria = +readlineSync.question(`Ingrese el número 1 si el profesor tiene maestria o 2 si no tiene: `);
+         if (isNaN(this.tienemaestria) ){
+            throw new Error(`La respuesta tiene que ser un número`)
+         }
+         else if(!this.tienemaestria){
+            throw new Error(`Debe ingresar si el profesor tiene maestria o no`)
+         }
+
+         if (this.tienemaestria==1){
+            this.tienemaestria = true;
+        }
+        else{
+            this.tienemaestria = false;
+        }
+        this.nombretipoprofesor = readlineSync.question(`Ingrese el tipo de profesor:Planta, Catedratico o Catedratico asociado `);
+        if(this.nombretipoprofesor.toLowerCase() != `planta` && this.nombretipoprofesor.toLowerCase() != `catedratico` && this.nombretipoprofesor.toLowerCase() != `catedratico asociado`){
+            throw new Error(`El tipo de profesor ingresado no es válido`)
+        }
+    }
+    
+clasificarprofesor(){}
+valorparcialpago(){}
+recargo(programa,asignatura){}
+pagoporrecargo(){}
+pagototalprofesores(){}
+agregarpagoaprograma(){}
+agregarpagoauniversidad(){}
+pagoprofesoresdia(){}
+
+}
+class Planta extends Profesor{
+    
+    constructor(nombre,correo,tienemaestria,nombretipoprofesor){
+        super(nombre,correo,tienemaestria,nombretipoprofesor,40000)
+        
+    }
+
+    clasificarprofesor(profesor){
+    return this.valorhora = 40000;
+    }
+    valorparcialpago(){
+        this.valorpago = this.valorhora * this.asignaturaasignada
+        
+        return this.valorpago
+    }recargo(programa,asignatura){
+        if(programa.jornada.toLowerCase() == `diurno` && asignatura.requieremaestria == true && this.tienemaestria == true){
+            this.pagoextra = 0.15
+        }
+        else if(programa.jornada.toLowerCase() == `nocturno` && asignatura.requieremaestria == true && this.tienemaestria == true){
+            this.pagoextra = 0.10
+        }
+
+    }
+    pagoporrecargo(){
+        this.totalpagoextra = this.valorpago * this.pagoextra
+        return this.totalpagoextra
+    }
+    pagototalprofesores(){
+        this.totalpago = this.totalpagoextra + this.valorpago
+        return this.totalpago
+    }
+    agregarpagoaprograma(programa){
+        programa.pagototalprofesores += this.totalpago
+    }
+    agregarpagoauniversidad(){
+        universidad.profesoresplanta = this.totalpago
+        universidad.pagototalplanta += universidad.profesoresplanta 
+
+    }
+    pagoprofesoresdia(programa){
+        if (programa.jornada.toLowerCase() == `diurno`){
+            universidad.cantidadprofesoresdia++;
+            universidad.pagoprofesoresdia += this.totalpago
+        }
+    }
+    
+}
+class Catedratico extends Profesor{
+    constructor(nombre,correo,tienemaestria,nombretipoprofesor){
+        super(nombre,correo,tienemaestria,nombretipoprofesor,50000)
+
+    }
+        clasificarprofesor(profesor){
+    return this.valorhora = 50000;
+    } valorparcialpago(){
+        this.valorpago = this.valorhora * this.asignaturaasignada
+        return this.valorpago
+    }recargo(programa,asignatura){
+        if(programa.jornada.toLowerCase() == `diurno` && asignatura.requieremaestria == true && this.tienemaestria == true){
+            this.pagoextra = 0.15
+        }
+        else if(programa.jornada.toLowerCase() == `nocturno` && asignatura.requieremaestria == true && this.tienemaestria == true){
+            this.pagoextra = 0.10
+        }
+
+    }
+    pagoporrecargo(){
+        this.totalpagoextra = this.valorpago * this.pagoextra
+        
+        return this.totalpagoextra
+    }
+    pagototalprofesores(){
+        this.totalpago = this.totalpagoextra + this.valorpago
+        return this.totalpago
+    }
+    agregarpagoaprograma(programa){
+        programa.pagototalprofesores += this.totalpago
+    }
+    agregarpagoauniversidad(){
+        universidad.profesorescatedraticos = this.totalpago
+        universidad.pagototalcatedraticos += universidad.profesorescatedraticos
+    }
+    pagoprofesoresdia(programa){
+        if (programa.jornada.toLowerCase() == `diurno`){
+            universidad.cantidadprofesoresdia++;
+            universidad.pagoprofesoresdia += this.totalpago
+        }
+    }
+    }
+    class Catedraticoasociado extends Profesor{
+        constructor(nombre,correo,tienemaestria,nombretipoprofesor){
+            super(nombre,correo,tienemaestria,nombretipoprofesor,53500)
+    
+        }
+            clasificarprofesor(profesor){
+        return this.valorhora = 53500
+        }
+         valorparcialpago(){
+            this.valorpago = this.valorhora * this.asignaturaasignada
+            
+            return this.valorpago
+        }
+
+        recargo(programa,asignatura){
+            if(programa.jornada.toLowerCase() == `diurno` && asignatura.requieremaestria == true && this.tienemaestria == true){
+                return this.pagoextra = 0.10
+            }
+            else if(programa.jornada.toLowerCase() == `nocturno` && asignatura.requieremaestria == true && this.tienemaestria == true){
+                return this.pagoextra = 0.15
+            }
+
+        }
+        pagoporrecargo(){
+            this.totalpagoextra = this.valorpago * this.pagoextra
+            
+            return this.totalpagoextra
+        }
+        pagototalprofesores(){
+            this.totalpago = this.totalpagoextra + this.valorpago
+            return this.totalpago
+        }
+        agregarpagoaprograma(programa){
+            programa.pagototalprofesores+= this.totalpago
+        }
+        agregarpagoauniversidad(){
+            universidad.profesorescatedraticos = this.totalpago
+            universidad.pagototalcatedraticos += universidad.profesorescatedraticos
+        }
+        pagoprofesoresdia(programa){
+            if (programa.jornada.toLowerCase() == `diurno`){
+                universidad.cantidadprofesoresdia++;
+                universidad.pagoprofesoresdia += this.totalpago
+            }
+        }
+        
+        
+    }
+        
+class Asignatura{
+    nombreasignatura = ``;
+    requieremaestria = true;
+    horasasignatura = 0;
+    profesor = new Profesor;
+        
+    constructor(nombreasignatura,requieremaestria,horasasignatura){
+        this.nombreasignatura = nombreasignatura;
+        this.requieremaestria = requieremaestria;
+        this.horasasignatura = horasasignatura;
+    }
+
+
+    agregardatosasignatura(){
+        this.nombreasignatura = readlineSync.question(`Ingrese el nombre de la asignatura: `);
+        if (this.nombreasignatura == ``){
+            throw new Error(`Debe ingresar el nombre de la asignatura: `);
+         }
+
+         this.horasasignatura = +readlineSync.question(`Ingrese de cuantas horas es la asignatura: `);
+        if (isNaN(this.horasasignatura)){
+            throw new Error(`Debe ingresar de cuantas horas es la asignatura `);
+         }
+         if (!this.horasasignatura){
+            throw new Error(`Debe ingresar de cuantas horas es la asignatura `);
+         }
+         this.requieremaestria = readlineSync.question(`Ingrese el numero 1.Si la asignatura requiere maestria o 2. Si no requiere: `);
+         
+         if (isNaN(this.requieremaestria)){
+            throw new Error(`Debe ingresar como respuesta el número 1 o el número 2 `);
+        }
+        if (!this.requieremaestria){
+            throw new Error(`Debe ingresar si la asignatura requiere maestria o no `);            
+            }
+        else{
+            if (this.requieremaestria==1){
+            
+                this.requieremaestria = true;
+            }
+            else{
+                this.requieremaestria = false;
+            } }  
+             }
+
+asignarprofesor(profesor){
+if(this.requieremaestria == true && profesor.tienemaestria == true){
+    this.profesor = profesor;
+    this.profesor.asignaturaasignada = this.horasasignatura
+console.info(`La asignatura fue asignada correctamente`)
+
+    }
+else if(this.requieremaestria == false && profesor.tienemaestria == false){
+    this.profesor = profesor;
+    this.profesor.asignaturaasignada = this.horasasignatura
+    console.info(`La asignatura fue asignada correctamente`)
+        }
+else if(this.requieremaestria == false && profesor.tienemaestria == true){
+    this.profesor = profesor;
+    this.profesor.asignaturaasignada = this.horasasignatura
+
+
+    console.info(`La asignatura fue asignada correctamente`)
+        }  
+else{
+    throw new Error(`La asignatura no fue agregada`)
+}  }
+
+}
+
+class Programa{
+    nombreprograma =``;
+    jornada =  ``;
+    listaasignaturas = [];
+    pagototalprofesores = 0;
+
+    constructor(nombreprograma,jornada){
+    this.nombreprograma = nombreprograma;
+    this.jornada = jornada;
+}
+
+programaagregardatos(){
+    this.nombreprograma = readlineSync.question(`Ingrese el nombre del programa: `);
+        if (this.nombreprograma == ``){
+            throw new Eror(`Debe ingresar el nombre del programa: `);
+         }
+    this.jornada = readlineSync.question(`Ingrese diurno si el programa es de dia o nocturno si es de noche: `);
+        if (this.jornada.toLowerCase() == ``){
+            throw new Eror(`Debe ingresar la jornada del programa: `);
+         }
+         if (this.jornada.toLowerCase() != `diurno` && this.jornada.toLowerCase() != `nocturno`){
+            throw new Eror(`Debe ingresar la palabra diurno o la palabra nocturno `);
+         }
+        
+    }
+   
+  
+agregarasignatura(asignatura){
+this.listaasignaturas.push(asignatura)
+}
+
+pagoprofesores(){
+universidad.pagototaluniversidad += this.pagototalprofesores
+return this.pagototalprofesores
+}
+}
+class Universidad{
+listaprogramas = []
+cantidadprofesoresconmaestria = 0;
+profesoresplanta = 0;
+pagototalplanta = 0;
+profesorescatedraticos = 0;
+pagototalcatedraticos = 0;
+pagototaluniversidad = 0;
+cantidadprofesoresdia = 0;
+pagoprofesoresdia = 0;
+promediocostosdia = 0;
+
+agregarprograma(programa){
+    this.listaprogramas.push(programa)
+}
+profesoresconmaestria(profesor){
+    if(profesor.tienemaestria == true){
+        this.cantidadprofesoresconmaestria++;
+        return this.cantidadprofesoresconmaestria
+    }
+}
+promediocostosprofesoresdia(){
+    this.promediocostosdia = this.pagoprofesoresdia/this.cantidadprofesoresdia
+    return this.promediocostosdia
+}
+}
+
+let numeroprogramas = +readlineSync.question(`Ingrese el numero de programas que desea agregar: `);
+if(!numeroprogramas){
+    throw new Error(`Debe ingresar el número de programas que desea agregar`)
+}
+const universidad = new Universidad();
+
+let i = 0;
+while(i<numeroprogramas){ 
+    i++;
+    const programa = new Programa();
+    programa.programaagregardatos();
+    universidad.listaprogramas.push(programa);
+
+    let numeroasignaturas = +readlineSync.question(`Ingrese el numero de asignaturas que desea agregar al programa: `);
+    if(!numeroasignaturas){
+        throw new Error(`Debe ingresar el número de asignaturas que desea agregar`)
+    }
+    let o = 0;
+    while(o<numeroasignaturas){
+        o++;
+        const programaactual = universidad.listaprogramas[i-1]
+        const asignatura = new Asignatura();
+        asignatura.agregardatosasignatura(); 
+        const profesor = new Profesor()
+        profesorimprimir = profesor
+        profesor.agregardatosprofesores();
+        
+        let tipoprofesor
+        if(profesor.nombretipoprofesor.toLowerCase()==`planta`){
+            tipoprofesor = new Planta(profesor.nombre,profesor.correo,profesor.tienemaestria,profesor.nombretipoprofesor,profesor.valorhora);
+        }
+        else if(profesor.nombretipoprofesor.toLowerCase()==`catedratico`){
+            tipoprofesor = new Catedratico(profesor.nombre,profesor.correo,profesor.tienemaestria,profesor.nombretipoprofesor,profesor.valorhora);
+        }
+        else if(profesor.nombretipoprofesor.toLowerCase()==`catedratico asociado`){
+            tipoprofesor = new Catedraticoasociado(profesor.nombre,profesor.correo,profesor.tienemaestria,profesor.nombretipoprofesor,profesor.valorhora);
+        }
+        else{
+            console.info(`Tipo de profesor no válido`);
+           
+        }
+        profesor.clasificarprofesor(tipoprofesor);
+        asignatura.asignarprofesor(tipoprofesor);
+        //asignatura.profesor.push(tipoprofesor)
+        programaactual.listaasignaturas.push(asignatura);
+        profesor.recargo(programa,asignatura);
+        profesor.valorparcialpago()
+        profesor.pagoporrecargo();
+        profesor.pagototalprofesores();
+        profesor.agregarpagoaprograma(programa)
+        profesor.agregarpagoauniversidad();
+        universidad.profesoresconmaestria(tipoprofesor);
+        profesor.pagoprofesoresdia(programa)
+    }
+    programa.pagoprofesores()
+}
+
+
+
+
+for(i=0;i<universidad.listaprogramas.length; i++){
+    const programa= universidad.listaprogramas[i] 
+ 
+ console.info(`El nombre del programa es de ${programa.nombreprograma}`)
+ console.info(`La jornada del programa es ${programa.jornada}`)
+ for(let a =0; a<programa.listaasignaturas.length; a++){
+ const asignatura = programa.listaasignaturas[a] ;
+ 
+     console.info(`El nombre de la asignatura es ${asignatura.nombreasignatura}`);
+     console.info(`Las horas de la asignatura son ${asignatura.horasasignatura}`);
+     console.info(`La asignatura requiere maestria? ${asignatura.requieremaestria}`); 
+ 
+     console.info(`El nombre del profesor es ${asignatura.profesor.nombre}`);
+     console.info(`El correo del profesor es ${asignatura.profesor.correo}`);
+     console.info(`El profesor tiene maestria? ${asignatura.profesor.tienemaestria}`);
+     console.info(`El profesor es de tipo ${asignatura.profesor.nombretipoprofesor}`);
+
+     asignatura.profesor.recargo(programa,asignatura)
+     console.info(`El pago sin recargos al profesor ${asignatura.profesor.nombre} es de ${asignatura.profesor.valorparcialpago()}`)
+     console.info(`El pago por recargos al profesor ${asignatura.profesor.nombre} es de ${asignatura.profesor.pagoporrecargo()}`)
+     console.info(`El pago total del profesor ${asignatura.profesor.nombre} es de ${asignatura.profesor.pagototalprofesores()}`)
+     asignatura.profesor.agregarpagoaprograma(programa);
+     asignatura.profesor.agregarpagoauniversidad();
+     asignatura.profesor.pagoprofesoresdia(programa)
+     
+    }
+    programa.pagoprofesores()
+
+    console.info(`El pago total de los profesores del programa ${programa.nombreprograma} es de ${programa.pagototalprofesores}`)
+}
+universidad.promediocostosprofesoresdia();
+console.info(`El pago total de todos los profesores de la universidad es de ${universidad.pagototaluniversidad}`)
+console.info(`El pago por concepto de profesores de planta es de ${universidad.pagototalplanta}`)
+console.info(`El pago por concepto de profesores catedráticos es de ${universidad.pagototalcatedraticos}`)
+console.info(`El promedio de costos de los profesores que dan clase en el dia es de: ${universidad.promediocostosdia}`)
+console.info(`El número de profesores que tienen maestría es de: ${universidad.cantidadprofesoresconmaestria}`)
