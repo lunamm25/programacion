@@ -227,8 +227,49 @@ class Catedratico extends Profesor{
         
         
     }
+class NodoProfesor{
+    valor = null;
+    siguiente = null;
+    constructor(valor,siguiente){
+        this.valor = valor
+        this.siguiente = siguiente
+    }
+}
 
-        
+class ListaProfesores{
+    head = null;
+
+
+agregarProfesor(profesor){
+const nodonuevo = new NodoProfesor
+nodonuevo.valor = profesor
+
+if(this.head == null){
+    this.head = nodonuevo
+}
+else{
+    let nodotemporal = this.head
+    while(nodotemporal.siguiente != null){
+        nodotemporal = nodotemporal.siguiente 
+    }
+    nodotemporal.siguiente = nodonuevo
+}
+}
+
+imprimirProfesor(){
+    let nodotemporal = this.head;
+    while(nodotemporal != null){
+    console.info(`El nombre del profesor es ${nodotemporal.valor.nombre}`)
+    console.info(`El correo del profesor es ${nodotemporal.valor.correo}`)
+    console.info(`El profesor tiene maestria? ${nodotemporal.valor.tienemaestria}`)
+    console.info(`El nombre del tipo de profesor es ${nodotemporal.valor.nombretipoprofesor}`)
+    console.info(`El pago sin recargos al profesor ${nodotemporal.valor.nombre} es de ${nodotemporal.valor.valorpago}`)
+    console.info(`El pago por recargos al profesor ${nodotemporal.valor.nombre} es de ${nodotemporal.valor.totalpagoextra}`)
+    console.info(`El pago por total del profesor ${nodotemporal.valor.nombre} es de ${nodotemporal.valor.totalpago}`)
+    nodotemporal = nodotemporal.siguiente;    
+}}
+}
+ 
 class Asignatura{
     nombreasignatura = ``;
     requieremaestria = true;
@@ -298,6 +339,46 @@ else{
 
 }
 
+class NodoAsignatura{
+    valor = null;
+    siguiente = null;
+    constructor(valor,siguiente){
+        this.valor = valor
+        this.siguiente = siguiente
+    }
+}
+
+class ListaAsignaturas{
+    head = null;
+
+
+agregarAsignatura(asignatura){
+const nodonuevo = new NodoAsignatura()
+nodonuevo.valor = asignatura
+
+if(this.head == null){
+    this.head = nodonuevo
+}
+else{
+    let nodotemporal = this.head
+    while(nodotemporal.siguiente != null){
+        nodotemporal = nodotemporal.siguiente 
+    }
+    nodotemporal.siguiente = nodonuevo
+}
+}
+
+imprimirAsignatura(){
+    let nodotemporal = this.head;
+    while(nodotemporal != null){
+    console.info(`El nombre de la asignatura es ${nodotemporal.valor.nombreasignatura}`)
+    console.info(`El profesor tiene maestria? ${nodotemporal.valor.requieremaestria}`)
+    console.info(`Las horas de la asignatura son ${nodotemporal.valor.horasasignatura}`)
+    nodotemporal = nodotemporal.siguiente;    
+    }
+}
+}
+
 class Programa{
     nombreprograma =``;
     jornada =  ``;
@@ -345,7 +426,49 @@ promedioprofesoresplanta(){
  
 }
 
+class NodoPrograma{
+    valor = null;
+    siguiente = null;
+    constructor(valor,siguiente){
+        this.valor = valor
+        this.siguiente = siguiente
+    }
+}
 
+class ListaProgramas{
+    head = null;
+
+
+agregarPrograma(programa){
+const nodonuevo = new NodoPrograma()
+nodonuevo.valor = programa
+
+if(this.head == null){
+    this.head = nodonuevo
+}
+else{
+    let nodotemporal = this.head
+    while(nodotemporal.siguiente != null){
+        nodotemporal = nodotemporal.siguiente 
+    }
+    nodotemporal.siguiente = nodonuevo
+}
+}
+
+imprimirPrograma(){
+    let nodotemporal = this.head;
+    while(nodotemporal != null){
+    console.info(`El nombre del programa es ${nodotemporal.valor.nombreprograma}`)
+    console.info(`La jornada del programa es ${nodotemporal.valor.jornada}`)
+    console.info(`El promedio del pago por profesores de planta del programa es ${nodotemporal.valor.promedioplanta}`)
+    console.info(`El promedio del pago por profesores de planta del programa ${nodotemporal.valor.nombreprograma} es ${nodotemporal.valor.promedioplanta}`)
+    console.info(`El pago total de los profesores del programa ${nodotemporal.valor.nombreprograma} es ${nodotemporal.valor.pagototalprofesores}`)
+
+
+    nodotemporal = nodotemporal.siguiente;    
+    }
+}
+}
 
 class Universidad{
 listaprogramas = []
@@ -379,6 +502,9 @@ if(!numeroprogramas){
     throw new Error(`Debe ingresar el número de programas que desea agregar`)
 }
 const universidad = new Universidad();
+const listaprofesores = new ListaProfesores();
+const listaasignaturas = new ListaAsignaturas();
+const listaprogramas = new ListaProgramas();
 
 let i = 0;
 while(i<numeroprogramas){ 
@@ -427,49 +553,40 @@ while(i<numeroprogramas){
         profesor.agregarpagoauniversidad(programa);
         universidad.profesoresconmaestria(tipoprofesor);
         profesor.pagoprofesoresdia(programa)
+        listaprofesores.agregarProfesor(tipoprofesor)
+        listaasignaturas.agregarAsignatura(asignatura)
     }
-    programa.pagoprofesores()
-    programa.promedioprofesoresplanta()
+    listaprogramas.agregarPrograma(programa)
+
 }
-
-
 
 
 for(i=0;i<universidad.listaprogramas.length; i++){
     const programa= universidad.listaprogramas[i] 
- 
- console.info(`El nombre del programa es de ${programa.nombreprograma}`)
- console.info(`La jornada del programa es ${programa.jornada}`)
+
  for(let a =0; a<programa.listaasignaturas.length; a++){
  const asignatura = programa.listaasignaturas[a] ;
  
-     console.info(`El nombre de la asignatura es ${asignatura.nombreasignatura}`);
-     console.info(`Las horas de la asignatura son ${asignatura.horasasignatura}`);
-     console.info(`La asignatura requiere maestria? ${asignatura.requieremaestria}`); 
- 
-     console.info(`El nombre del profesor es ${asignatura.profesor.nombre}`);
-     console.info(`El correo del profesor es ${asignatura.profesor.correo}`);
-     console.info(`El profesor tiene maestria? ${asignatura.profesor.tienemaestria}`);
-     console.info(`El profesor es de tipo ${asignatura.profesor.nombretipoprofesor}`);
-
      asignatura.profesor.recargo(programa,asignatura)
-     console.info(`El pago sin recargos al profesor ${asignatura.profesor.nombre} es de ${asignatura.profesor.valorparcialpago()}`)
-     console.info(`El pago por recargos al profesor ${asignatura.profesor.nombre} es de ${asignatura.profesor.pagoporrecargo()}`)
-     console.info(`El pago total del profesor ${asignatura.profesor.nombre} es de ${asignatura.profesor.pagototalprofesores()}`)
+     asignatura.profesor.valorparcialpago()
+     asignatura.profesor.pagoporrecargo()
+     asignatura.profesor.pagototalprofesores()
      asignatura.profesor.agregarpagoaprograma(programa);
      asignatura.profesor.agregarpagoauniversidad(programa);
      asignatura.profesor.pagoprofesoresdia(programa)
-     
     }
+    listaprofesores.imprimirProfesor()
+    listaasignaturas.imprimirAsignatura();
     programa.promedioprofesoresplanta()
     programa.pagoprofesores()
-    console.info(`El promedio del pago de los profesores de planta del programa ${programa.nombreprograma} es de ${programa.promedioplanta}`)
-
-    console.info(`El pago total de los profesores del programa ${programa.nombreprograma} es de ${programa.pagototalprofesores}`)
+    listaprogramas.imprimirPrograma();
 }
+
+
 universidad.promediocostosprofesoresdia();
 console.info(`El pago total de todos los profesores de la universidad es de ${universidad.pagototaluniversidad}`)
 console.info(`El pago por concepto de profesores de planta es de ${universidad.pagototalplanta}`)
 console.info(`El pago por concepto de profesores catedráticos es de ${universidad.pagototalcatedraticos}`)
 console.info(`El promedio de costos de los profesores que dan clase en el dia es de: ${universidad.promediocostosdia}`)
 console.info(`El número de profesores que tienen maestría es de: ${universidad.cantidadprofesoresconmaestria}`)
+

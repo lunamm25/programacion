@@ -1,283 +1,575 @@
-const readlineSync = require('readline-sync');
+const readlineSync = require(`readline-sync`);
 
-class Seguro 
-{
-    
-    deducible = 0;
-    valorAsegurado = 0;
-    costo = 0;
-    nombre = '';//bronce, plata, oro, diamante
-
-    constructor(deducible, valorAsegurado, nombre, costo){
-        this.deducible = deducible;
-        this.valorAsegurado = valorAsegurado;
+class Profesor{
+    nombre = ``;
+    tienemaestria = true;
+    nombretipoprofesor = ``
+    valorhora = 0;
+    asignaturaasignada = 0;
+    #valorpago = 0;
+    #totalpago = 0;
+    #pagoextra = 0;
+    #totalpagoextra = 0;
+    cantidadprofesoresconmaestria= 0
+    constructor(nombre,correo,tienemaestria,nombretipoprofesor,valorhora){
         this.nombre = nombre;
-        this.costo =costo;
-    }
-}
-
-const seguro1 = new Seguro(400, 1000000, 'bronce', 500);
-const seguro2 = new Seguro(300, 2000000, 'plata', 3000);
-const seguro3 = new Seguro(200, 30000000, 'dorado', 7000);
-const seguro4 = new Seguro(0, 70000000, 'diamante', 10000);
-
-/**
-Bus desde un sistema de una aseguradora. 
-1. Abstraccion: Sacar los atributos mas relevantes de una clase de acuerdo al sistema
-Si fuera un sistema de mecanicos, los atributos de la misma clase bus serian diferentes.
-
-2. Clase: Molde, plantilla, modelo para definir que tienen los objetos: atributos y metodos.
-las clases sirven para crear objetos. La clase tiene:   
-    2.1. Atributos: caracteristicas del objeto que se obtienen mediante un proceso de abstraccion
-
-3. Objeto: Es la creacion (instancia, ejemplar) de una clase. Los objetos tienen:
-    3.1. Estado: Son los valores de los atributos en un momento del tiempo
-    3.2. Igualdad. Cuando yo hago bus3 = bus1. Las variables bus3 y bus1 son la misma referencia
-    y por lo tanto son iguales.
- */
-class Bus {
-
-    //Atributos - datos
-    avaluo = 0; //costo en dinero del bus
-    marca = ''; //mercedes, BMW, Iveco
-    asegurado = false; // false = no asegurado, true = si asegurado
-    tipoDeSeguro = null; //Este atributo guarda el objeto de tipo Seguro seleccionado
-    motivoRechazoSeguro = '';
-    #modelo = 0;
-    
-    //Problema: Muchos servicios pueden depender de esta categoria
-    //por lo tanto voy a tener en muchas partes del codigo, muchos if-else o switch
-    //para saber la categoria del bus y acomodar la logica del programa a esa categoria
-    //El problema de tener muchos if-else dependiendo de la categoria, es que si sale
-    //una nueva categoria, me tocaria modificar todos los if-else de las categoria
-    //con lo cual podria introducir errores en el programa
-    //SOLUCION:herencia, polimorfismo
-    //Se quita el atributo categoria y se pone en una sub-clase por que no todos los buses tienen categoria
-    //categoria = ''; //lujo, escolar, paseos, funebre
-
-    //El metodo constructor protege el programa para que no se creen
-    //objetos sin los datos requeridos
-    //En este metodo tambien se pueden inicializar otros atributos, segun las
-    //necesidades que se tengan
-    //Evita que se creen objetos a la loca
-    constructor(modelo, avaluo, marca){
-        if(modelo == undefined){
-            throw new Error(`El bus requiere un modelo`);
-        }
-        if(!avaluo){
-            throw new Error(`El bus requiere un avaluo`);
-        }
-        if(!marca){
-            throw new Error(`El bus requiere una marca`);
-        }
-
-        this.#modelo = modelo;
-        this.avaluo = avaluo;
-        this.marca = marca;
+        this.correo = correo;
+        this.tienemaestria = tienemaestria;
+        this.nombretipoprofesor = nombretipoprofesor
+        this.valorhora = valorhora
+        this.totalpago = 0;
     }
 
-    //Encapsulamiento: proteccion del atributo: metodo getter
-    get modelo() {
-        return this.#modelo;
-    }
 
-    //Encapsulamiento: proteccion del atributo: metodo setter
-    set modelo(nuevoValorDelModelo){
-        if(nuevoValorDelModelo < 0){
-            throw new Error(`el modelo no puede ser un valor negativo`);
-        }
-        this.#modelo = nuevoValorDelModelo;
+    set totalpago(nuevototalpago){
+        this.#totalpago = nuevototalpago
     }
-    
-    
-    //Metodos - inteligencia
-    compararModelo(otroBus){
-        if(this.modelo < otroBus.modelo){
-            console.info(`El bus ${this.marca} es mas viejo que ${otroBus.marca}`);
+    get totalpago(){
+        return this.#totalpago;
+    }
+    set valorpago(nuevovalorpago){
+        this.#valorpago = nuevovalorpago
+    }
+    get valorpago(){
+        return this.#valorpago;
+    }
+    set pagoextra(nuevopagoextra){
+        this.#pagoextra = nuevopagoextra
+    }
+    get pagoextra(){
+        return this.#pagoextra;
+    }
+    set totalpagoextra(nuevototalpagoextra){
+        this.#totalpagoextra = nuevototalpagoextra
+    }
+    get totalpagoextra(){
+        return this.#totalpagoextra;
+    }
+    agregardatosprofesores(){
+        this.nombre = readlineSync.question(`Ingrese el nombre del profesor: `);
+        if (this.nombre == ``){
+            throw new Error(`Debe ingresar el nombre: `);
+         }
+         
+         
+        this.correo = readlineSync.question(`Ingrese el correo del profesor: `);
+        if (this.correo == ``){
+            throw new Error(`Debe ingresar el correo: `);
+         
+         }
+         this.tienemaestria = +readlineSync.question(`Ingrese el número 1 si el profesor tiene maestria o 2 si no tiene: `);
+         if (isNaN(this.tienemaestria) ){
+            throw new Error(`La respuesta tiene que ser un número`)
+         }
+         else if(!this.tienemaestria){
+            throw new Error(`Debe ingresar si el profesor tiene maestria o no`)
+         }
+
+         if (this.tienemaestria==1){
+            this.tienemaestria = true;
         }
         else{
-            console.info(`El bus ${otroBus.marca} es mas viejo que ${this.marca}`);
+            this.tienemaestria = false;
+        }
+        this.nombretipoprofesor = readlineSync.question(`Ingrese el tipo de profesor:Planta, Catedratico o Catedratico asociado `);
+        if(this.nombretipoprofesor.toLowerCase() != `planta` && this.nombretipoprofesor.toLowerCase() != `catedratico` && this.nombretipoprofesor.toLowerCase() != `catedratico asociado`){
+            throw new Error(`El tipo de profesor ingresado no es válido`)
         }
     }
+    
+clasificarprofesor(){}
+valorparcialpago(){}
+recargo(programa,asignatura){}
+pagoporrecargo(){}
+pagototalprofesores(){}
+agregarpagoaprograma(){}
+agregarpagoauniversidad(){}
+pagoprofesoresdia(){}
 
-    asegurar(dineroDisponible){
+}
+class Planta extends Profesor{
+    
+    constructor(nombre,correo,tienemaestria,nombretipoprofesor){
+        super(nombre,correo,tienemaestria,nombretipoprofesor,40000)
+        
+    }
 
-        console.info(`Quiere asegurar el bus de marca: ${this.marca} - disponible: ${dineroDisponible}`);
+    clasificarprofesor(profesor){
+    return this.valorhora = 40000;
+    }
+    valorparcialpago(){
+        this.valorpago = this.valorhora * this.asignaturaasignada
+        
+        return this.valorpago
+    }recargo(programa,asignatura){
+        if(programa.jornada.toLowerCase() == `diurno` && asignatura.requieremaestria == true && this.tienemaestria == true){
+            this.pagoextra = 0.15
+        }
+        else if(programa.jornada.toLowerCase() == `nocturno` && asignatura.requieremaestria == true && this.tienemaestria == true){
+            this.pagoextra = 0.10
+        }
 
-        //Buena practica de programacion: Primero se verifican los errores
-        //Si hay algun error, se hace lo que se tenga que hacer y se retorna
-        if(this.modelo < 1970){
-            this.motivoRechazoSeguro = `el bus es muy viejo`;
-            return;
+    }
+    pagoporrecargo(){
+        this.totalpagoextra = this.valorpago * this.pagoextra
+        return this.totalpagoextra
+    }
+    pagototalprofesores(){
+        this.totalpago = this.totalpagoextra + this.valorpago
+        return this.totalpago
+    }
+    agregarpagoaprograma(programa){
+        programa.pagototalprofesores += this.totalpago
+    }
+    agregarpagoauniversidad(programa){
+        universidad.profesoresplanta = this.totalpago
+        universidad.pagototalplanta += universidad.profesoresplanta 
+        programa.pagoprofesoresplanta = this.totalpago
+        programa.totalprofesoresplanta += programa.pagoprofesoresplanta
+        programa.cantidadprofesoresplanta++
+
+    }
+    pagoprofesoresdia(programa){
+        if (programa.jornada.toLowerCase() == `diurno`){
+            universidad.cantidadprofesoresdia++;
+            universidad.pagoprofesoresdia += this.totalpago
+        }
+    }
+    
+}
+class Catedratico extends Profesor{
+    constructor(nombre,correo,tienemaestria,nombretipoprofesor){
+        super(nombre,correo,tienemaestria,nombretipoprofesor,50000)
+
+    }
+        clasificarprofesor(profesor){
+    return this.valorhora = 50000;
+    } valorparcialpago(){
+        this.valorpago = this.valorhora * this.asignaturaasignada
+        return this.valorpago
+    }recargo(programa,asignatura){
+        if(programa.jornada.toLowerCase() == `diurno` && asignatura.requieremaestria == true && this.tienemaestria == true){
+            this.pagoextra = 0.15
+        }
+        else if(programa.jornada.toLowerCase() == `nocturno` && asignatura.requieremaestria == true && this.tienemaestria == true){
+            this.pagoextra = 0.10
+        }
+
+    }
+    pagoporrecargo(){
+        this.totalpagoextra = this.valorpago * this.pagoextra
+        
+        return this.totalpagoextra
+    }
+    pagototalprofesores(){
+        this.totalpago = this.totalpagoextra + this.valorpago
+        return this.totalpago
+    }
+    agregarpagoaprograma(programa){
+        programa.pagototalprofesores += this.totalpago
+    }
+    agregarpagoauniversidad(){
+        universidad.profesorescatedraticos = this.totalpago
+        universidad.pagototalcatedraticos += universidad.profesorescatedraticos
+    }
+    pagoprofesoresdia(programa){
+        if (programa.jornada.toLowerCase() == `diurno`){
+            universidad.cantidadprofesoresdia++;
+            universidad.pagoprofesoresdia += this.totalpago
+        }
+    }
+    }
+    class Catedraticoasociado extends Profesor{
+        constructor(nombre,correo,tienemaestria,nombretipoprofesor){
+            super(nombre,correo,tienemaestria,nombretipoprofesor,53500)
+    
+        }
+            clasificarprofesor(profesor){
+        return this.valorhora = 53500
+        }
+         valorparcialpago(){
+            this.valorpago = this.valorhora * this.asignaturaasignada
+            
+            return this.valorpago
+        }
+
+        recargo(programa,asignatura){
+            if(programa.jornada.toLowerCase() == `diurno` && asignatura.requieremaestria == true && this.tienemaestria == true){
+                return this.pagoextra = 0.10
+            }
+            else if(programa.jornada.toLowerCase() == `nocturno` && asignatura.requieremaestria == true && this.tienemaestria == true){
+                return this.pagoextra = 0.15
+            }
+
+        }
+        pagoporrecargo(){
+            this.totalpagoextra = this.valorpago * this.pagoextra
+            
+            return this.totalpagoextra
+        }
+        pagototalprofesores(){
+            this.totalpago = this.totalpagoextra + this.valorpago
+            return this.totalpago
+        }
+        agregarpagoaprograma(programa){
+            programa.pagototalprofesores+= this.totalpago
+        }
+        agregarpagoauniversidad(){
+            universidad.profesorescatedraticos = this.totalpago
+            universidad.pagototalcatedraticos += universidad.profesorescatedraticos
+        }
+        pagoprofesoresdia(programa){
+            if (programa.jornada.toLowerCase() == `diurno`){
+                universidad.cantidadprofesoresdia++;
+                universidad.pagoprofesoresdia += this.totalpago
+            }
         }
         
-        if(this.avaluo > 10000000){
-            this.motivoRechazoSeguro = `el bus es es demasiado costoso`;
-            throw new Error(`El bus es demasiado costoso`);
-        }
         
-        const seguroElegido = readlineSync.question('Que seguro quiere Diamante(d), Dorado(o), Plata(p), Bronce(b): ');
-        if(seguroElegido == 'd'){
-            console.log({dineroDisponible});
-            if(dineroDisponible < seguro4.costo){
-                throw new Error(`El dinero disponible no alcanza para el seguro ${seguro4.nombre}`);
+    }
+class NodoProfesor{
+    valor = null;
+    siguiente = null;
+    constructor(valor,siguiente){
+        this.valor = valor
+        this.siguiente = siguiente
+    }
+}
+
+class ListaProfesores{
+    head = null;
+
+
+agregarProfesor(profesor){
+const nodonuevo = new NodoProfesor
+nodonuevo.valor = profesor
+
+if(this.head == null){
+    this.head = nodonuevo
+}
+else{
+    let nodotemporal = this.head
+    while(nodotemporal.siguiente != null){
+        nodotemporal = nodotemporal.siguiente 
+    }
+    nodotemporal.siguiente = nodonuevo
+}
+}
+
+imprimirProfesor(){
+    let nodotemporal = this.head;
+    while(nodotemporal != null){
+    console.info(`El nombre del profesor es ${nodotemporal.valor.nombre}`)
+    console.info(`El correo del profesor es ${nodotemporal.valor.correo}`)
+    console.info(`El profesor tiene maestria? ${nodotemporal.valor.tienemaestria}`)
+    console.info(`El nombre del tipo de profesor es ${nodotemporal.valor.nombretipoprofesor}`)
+    console.info(`El pago sin recargos al profesor ${nodotemporal.valor.nombre} es de ${nodotemporal.valor.valorpago}`)
+    console.info(`El pago por recargos al profesor ${nodotemporal.valor.nombre} es de ${nodotemporal.valor.totalpagoextra}`)
+    console.info(`El pago por total del profesor ${nodotemporal.valor.nombre} es de ${nodotemporal.valor.totalpago}`)
+
+    nodotemporal = nodotemporal.siguiente;    
+
+    }
+
+
+}
+}
+ 
+class Asignatura{
+    nombreasignatura = ``;
+    requieremaestria = true;
+    horasasignatura = 0;
+    profesor = new Profesor;
+        
+    constructor(nombreasignatura,requieremaestria,horasasignatura){
+        this.nombreasignatura = nombreasignatura;
+        this.requieremaestria = requieremaestria;
+        this.horasasignatura = horasasignatura;
+    }
+
+
+    agregardatosasignatura(){
+        this.nombreasignatura = readlineSync.question(`Ingrese el nombre de la asignatura: `);
+        if (this.nombreasignatura == ``){
+            throw new Error(`Debe ingresar el nombre de la asignatura: `);
+         }
+
+         this.horasasignatura = +readlineSync.question(`Ingrese de cuantas horas es la asignatura: `);
+        if (isNaN(this.horasasignatura)){
+            throw new Error(`Debe ingresar de cuantas horas es la asignatura `);
+         }
+         if (!this.horasasignatura){
+            throw new Error(`Debe ingresar de cuantas horas es la asignatura `);
+         }
+         this.requieremaestria = readlineSync.question(`Ingrese el numero 1.Si la asignatura requiere maestria o 2. Si no requiere: `);
+         
+         if (isNaN(this.requieremaestria)){
+            throw new Error(`Debe ingresar como respuesta el número 1 o el número 2 `);
+        }
+        if (!this.requieremaestria){
+            throw new Error(`Debe ingresar si la asignatura requiere maestria o no `);            
             }
-
-            this.tipoDeSeguro = seguro4;
-        }
-        else if(seguroElegido == 'o'){
-            if(dineroDisponible < seguro3.costo){
-                throw new Error(`El dinero disponible no alcanza para el seguro ${seguro3.nombre}`);
+        else{
+            if (this.requieremaestria==1){
+            
+                this.requieremaestria = true;
             }
-            this.tipoDeSeguro = seguro3;
+            else{
+                this.requieremaestria = false;
+            } }  
+             }
+
+asignarprofesor(profesor){
+if(this.requieremaestria == true && profesor.tienemaestria == true){
+    this.profesor = profesor;
+    this.profesor.asignaturaasignada = this.horasasignatura
+console.info(`La asignatura fue asignada correctamente`)
+
+    }
+else if(this.requieremaestria == false && profesor.tienemaestria == false){
+    this.profesor = profesor;
+    this.profesor.asignaturaasignada = this.horasasignatura
+    console.info(`La asignatura fue asignada correctamente`)
         }
-        else if(seguroElegido == 'p'){
-            if(dineroDisponible < seguro2.costo){
-                throw new Error(`El dinero disponible no alcanza para el seguro ${seguro2.nombre}`);
-            }
-            this.tipoDeSeguro = seguro2;
+else if(this.requieremaestria == false && profesor.tienemaestria == true){
+    this.profesor = profesor;
+    this.profesor.asignaturaasignada = this.horasasignatura
+
+
+    console.info(`La asignatura fue asignada correctamente`)
+        }  
+else{
+    throw new Error(`La asignatura no fue agregada`)
+}  }
+
+}
+
+class NodoAsignatura{
+    valor = null;
+    siguiente = null;
+    constructor(valor,siguiente){
+        this.valor = valor
+        this.siguiente = siguiente
+    }
+}
+
+class ListaAsignaturas{
+    head = null;
+
+
+agregarAsignatura(asignatura){
+const nodonuevo = new NodoAsignatura()
+nodonuevo.valor = asignatura
+
+if(this.head == null){
+    this.head = nodonuevo
+}
+else{
+    let nodotemporal = this.head
+    while(nodotemporal.siguiente != null){
+        nodotemporal = nodotemporal.siguiente 
+    }
+    nodotemporal.siguiente = nodonuevo
+}
+}
+
+imprimirAsignatura(){
+    let nodotemporal = this.head;
+    while(nodotemporal != null){
+    console.info(`El nombre de la asignatura es ${nodotemporal.valor.nombreasignatura}`)
+    console.info(`El profesor tiene maestria? ${nodotemporal.valor.requieremaestria}`)
+    console.info(`Las horas de la asignatura son ${nodotemporal.valor.horasasignatura}`)
+    nodotemporal = nodotemporal.siguiente;    
+
+    }
+
+
+}
+}
+
+class Programa{
+    nombreprograma =``;
+    jornada =  ``;
+    listaasignaturas = [];
+    pagototalprofesores = 0;
+    pagoprofesoresplanta = 0;
+    totalprofesoresplanta = 0;
+    cantidadprofesoresplanta = 0;
+    promedioplanta = 0;
+
+    constructor(nombreprograma,jornada){
+    this.nombreprograma = nombreprograma;
+    this.jornada = jornada;
+}
+
+programaagregardatos(){
+    this.nombreprograma = readlineSync.question(`Ingrese el nombre del programa: `);
+        if (this.nombreprograma == ``){
+            throw new Eror(`Debe ingresar el nombre del programa: `);
+         }
+    this.jornada = readlineSync.question(`Ingrese diurno si el programa es de dia o nocturno si es de noche: `);
+        if (this.jornada.toLowerCase() == ``){
+            throw new Eror(`Debe ingresar la jornada del programa: `);
+         }
+         if (this.jornada.toLowerCase() != `diurno` && this.jornada.toLowerCase() != `nocturno`){
+            throw new Eror(`Debe ingresar la palabra diurno o la palabra nocturno `);
+         }
+        
+    }
+   
+  
+agregarasignatura(asignatura){
+this.listaasignaturas.push(asignatura)
+}
+
+pagoprofesores(){
+universidad.pagototaluniversidad += this.pagototalprofesores
+return this.pagototalprofesores
+}
+
+promedioprofesoresplanta(){
+    this.promedioplanta = this.totalprofesoresplanta/this.cantidadprofesoresplanta
+    return this.promedioplanta
+}
+ 
+}
+
+
+
+class Universidad{
+listaprogramas = []
+cantidadprofesoresconmaestria = 0;
+profesoresplanta = 0;
+pagototalplanta = 0;
+profesorescatedraticos = 0;
+pagototalcatedraticos = 0;
+pagototaluniversidad = 0;
+cantidadprofesoresdia = 0;
+pagoprofesoresdia = 0;
+promediocostosdia = 0;
+
+agregarprograma(programa){
+    this.listaprogramas.push(programa)
+}
+profesoresconmaestria(profesor){
+    if(profesor.tienemaestria == true){
+        this.cantidadprofesoresconmaestria++;
+        return this.cantidadprofesoresconmaestria
+    }
+}
+promediocostosprofesoresdia(){
+    this.promediocostosdia = this.pagoprofesoresdia/this.cantidadprofesoresdia
+    return this.promediocostosdia
+}
+}
+
+let numeroprogramas = +readlineSync.question(`Ingrese el numero de programas que desea agregar: `);
+if(!numeroprogramas){
+    throw new Error(`Debe ingresar el número de programas que desea agregar`)
+}
+const universidad = new Universidad();
+const listaprofesores = new ListaProfesores();
+const listaasignaturas = new ListaAsignaturas();
+
+let i = 0;
+while(i<numeroprogramas){ 
+    i++;
+    const programa = new Programa();
+    programa.programaagregardatos();
+    universidad.listaprogramas.push(programa);
+
+    let numeroasignaturas = +readlineSync.question(`Ingrese el numero de asignaturas que desea agregar al programa: `);
+    if(!numeroasignaturas){
+        throw new Error(`Debe ingresar el número de asignaturas que desea agregar`)
+    }
+    let o = 0;
+    while(o<numeroasignaturas){
+        o++;
+        const programaactual = universidad.listaprogramas[i-1]
+        const asignatura = new Asignatura();
+        asignatura.agregardatosasignatura(); 
+        const profesor = new Profesor()
+        profesorimprimir = profesor
+        profesor.agregardatosprofesores();
+        
+        let tipoprofesor
+        if(profesor.nombretipoprofesor.toLowerCase()==`planta`){
+            tipoprofesor = new Planta(profesor.nombre,profesor.correo,profesor.tienemaestria,profesor.nombretipoprofesor,profesor.valorhora);
         }
-        else {
-            if(dineroDisponible < seguro1.costo){
-                throw new Error(`El dinero disponible no alcanza para el seguro ${seguro1.nombre}`);
-            }
-            this.tipoDeSeguro = seguro1;
+        else if(profesor.nombretipoprofesor.toLowerCase()==`catedratico`){
+            tipoprofesor = new Catedratico(profesor.nombre,profesor.correo,profesor.tienemaestria,profesor.nombretipoprofesor,profesor.valorhora);
         }
-
-        console.info(`El bus ${this.marca} se ha asegurado con exito`);
-        //No hubo ningun error
-        this.asegurado = true;
-    }
-}
-
-let bus1 = new Bus(
-    2011, 
-    1000, 
-    `Mercedes`
-);
-
-let bus2 = new Bus(1995, 300, `Iveco`);
-let bus3 = new Bus(2011, 50000, `BMW`);
-
-if(bus1 == bus3){
-    console.log(`Los buses 1 y 3 son iguales`);
-}
-else {
-    console.log(`Los buses 1 y 3 son diferentes pero tienen el mismo ESTADO`);
-}
-
-console.info(`Los buses son diferentes instancias pero tienen el mismo estado`);
-console.info({bus1});
-console.info({bus3});
-
-console.info(`Se asigna el bus3 al bus1`);
-bus1 = bus3;
-if(bus1 == bus3){
-    console.log(`Los buses 1 y 3 son iguales porque son EL MISMO OBJETO`);
-}
-else {
-    console.log(`Los buses 1 y 3 son diferentes`);
-}
-
-console.info({bus1});
-console.info({bus3});
-console.info(`Ahora se cambia el modelo del bus3`);
-
-bus3.modelo = 2012;
-console.info(`ESTE ES EL MODELO DEL BUS 3: ${bus3.modelo}`);
-
-console.info({bus3});
-console.info({bus1});
-
-console.info(`Ahora se instancia de nuevo el bus1`);
-bus1 = new Bus(2011, 1000, `Mercedes`);
-console.info({bus3});
-console.info({bus1});
-
-console.info(`Averiguar si un bus es mas viejo que otro CON METODOS`);
-bus1.compararModelo(bus2);
-
-//bus1.asegurar(3000);
-
-//HERENCIA
-class BusEspecial extends Bus {
-    categoria = ''; //lujo, escolar, paseos, funebre
-
-    constructor(modelo, avaluo, marca, categoria){
-        super(modelo, avaluo, marca);
-        if(!categoria){
-            throw new Error(`El bus especial debe tener categoria`);
+        else if(profesor.nombretipoprofesor.toLowerCase()==`catedratico asociado`){
+            tipoprofesor = new Catedraticoasociado(profesor.nombre,profesor.correo,profesor.tienemaestria,profesor.nombretipoprofesor,profesor.valorhora);
         }
-        this.categoria = categoria;
-    }
-
-    ajustarPrecioDeSeguro(){}
-}
-
-//PROBLEMA:
-//Aplicar descuento segun la categoria del bus
-//me voy a llenar de muchos if's
-//para no llenarme de if's utilizo POLIMORFISMO
-
-class BusDeLujo extends BusEspecial{
-    constructor(modelo, avaluo, marca){
-        super(modelo, avaluo, marca, 'lujo');
-    }
-
-    ajustarPrecioDeSeguro(){
-        const nuevoPrecioSeguro = this.tipoDeSeguro.costo + (this.tipoDeSeguro.costo * 10/100);
-        return nuevoPrecioSeguro;
-    }
-}
-
-class BusEscolar extends BusEspecial{
-    constructor(modelo, avaluo, marca){
-        super(modelo, avaluo, marca, 'escolar');
-    }
-
-    ajustarPrecioDeSeguro(){
-        const nuevoPrecioSeguro = this.tipoDeSeguro.costo - (this.tipoDeSeguro.costo * 10/100);
-        return nuevoPrecioSeguro;
-    }
-}
-
-class BusPaseos extends BusEspecial{
-
-    cantidadPaseosAlAnio = 0;
-
-    constructor(modelo, avaluo, marca, cantidadPaseosAlAnio){
-        super(modelo, avaluo, marca, 'paseos');
-        this.cantidadPaseosAlAnio = cantidadPaseosAlAnio;
-    }
-
-    ajustarPrecioDeSeguro(){
-        let nuevoPrecioSeguro = 0;
-        if(this.cantidadPaseosAlAnio <= 100){
-            nuevoPrecioSeguro = this.tipoDeSeguro.costo + (this.tipoDeSeguro.costo * 10/100);
+        else{
+            console.info(`Tipo de profesor no válido`);
+           
         }
-        else if(this.cantidadPaseosAlAnio >= 200) {
-            nuevoPrecioSeguro = this.tipoDeSeguro.costo + (this.tipoDeSeguro.costo * 20/100);
-        }
+        profesor.clasificarprofesor(tipoprofesor);
+        asignatura.asignarprofesor(tipoprofesor);
+        //asignatura.profesor.push(tipoprofesor)
+        programaactual.listaasignaturas.push(asignatura);
+        profesor.recargo(programa,asignatura);
+        profesor.valorparcialpago()
+        profesor.pagoporrecargo();
+        profesor.pagototalprofesores();
+        profesor.agregarpagoaprograma(programa)
+        profesor.agregarpagoauniversidad(programa);
+        universidad.profesoresconmaestria(tipoprofesor);
+        profesor.pagoprofesoresdia(programa)
+        listaprofesores.agregarProfesor(tipoprofesor)
+        listaasignaturas.agregarAsignatura(asignatura)
 
-        return nuevoPrecioSeguro;
     }
+
 }
 
 
-const busDeLujo = new BusDeLujo(2020, 9000000, 'Mercedes');
-const busEscolar1 = new BusEscolar(2018, 3000000, 'Iveco');
-const busParaLosPaseos = new BusPaseos(2019, 5000000, 'BMW', 99);
 
-const listaBusesEspeciales = [];
-listaBusesEspeciales.push(busDeLujo);
-listaBusesEspeciales.push(busEscolar1);
-listaBusesEspeciales.push(busParaLosPaseos);
+for(i=0;i<universidad.listaprogramas.length; i++){
+    const programa= universidad.listaprogramas[i] 
+ 
+ console.info(`El nombre del programa es de ${programa.nombreprograma}`)
+ console.info(`La jornada del programa es ${programa.jornada}`)
+ for(let a =0; a<programa.listaasignaturas.length; a++){
+ const asignatura = programa.listaasignaturas[a] ;
+ 
+     /* console.info(`El nombre de la asignatura es ${asignatura.nombreasignatura}`);
+     console.info(`Las horas de la asignatura son ${asignatura.horasasignatura}`);
+     console.info(`La asignatura requiere maestria? ${asignatura.requieremaestria}`);  */
+     /* console.info(`El nombre del profesor es ${asignatura.profesor.nombre}`);
+     console.info(`El correo del profesor es ${asignatura.profesor.correo}`);
+     console.info(`El profesor tiene maestria? ${asignatura.profesor.tienemaestria}`);
+     console.info(`El profesor es de tipo ${asignatura.profesor.nombretipoprofesor}`); */
+     asignatura.profesor.recargo(programa,asignatura)
+     asignatura.profesor.valorparcialpago()
+     asignatura.profesor.pagoporrecargo()
+     asignatura.profesor.pagototalprofesores()
 
-for(let i=0; i<listaBusesEspeciales.length; i++){
-    listaBusesEspeciales[i].asegurar(30000);
+    /*  
+     console.info(`El pago sin recargos al profesor ${asignatura.profesor.nombre} es de ${asignatura.profesor.valorparcialpago()}`)
+     console.info(`El pago por recargos al profesor ${asignatura.profesor.nombre} es de ${asignatura.profesor.pagoporrecargo()}`)
+     console.info(`El pago total del profesor ${asignatura.profesor.nombre} es de ${asignatura.profesor.pagototalprofesores()}`) */
+     asignatura.profesor.agregarpagoaprograma(programa);
+     asignatura.profesor.agregarpagoauniversidad(programa);
+     asignatura.profesor.pagoprofesoresdia(programa)
+     listaprofesores.imprimirProfesor()
+     listaasignaturas.imprimirAsignatura();
+
+
+     
+    }
+    programa.promedioprofesoresplanta()
+    programa.pagoprofesores()
+    console.info(`El promedio del pago de los profesores de planta del programa ${programa.nombreprograma} es de ${programa.promedioplanta}`)
+
+    console.info(`El pago total de los profesores del programa ${programa.nombreprograma} es de ${programa.pagototalprofesores}`)
 }
+universidad.promediocostosprofesoresdia();
+console.info(`El pago total de todos los profesores de la universidad es de ${universidad.pagototaluniversidad}`)
+console.info(`El pago por concepto de profesores de planta es de ${universidad.pagototalplanta}`)
+console.info(`El pago por concepto de profesores catedráticos es de ${universidad.pagototalcatedraticos}`)
+console.info(`El promedio de costos de los profesores que dan clase en el dia es de: ${universidad.promediocostosdia}`)
+console.info(`El número de profesores que tienen maestría es de: ${universidad.cantidadprofesoresconmaestria}`)
 
-for(let i=0; i<listaBusesEspeciales.length; i++){
-    const nuevoPrecioSeguro = listaBusesEspeciales[i].ajustarPrecioDeSeguro();
-    console.info(`el seguro ${listaBusesEspeciales[i].tipoDeSeguro.nombre} para el bus marca ${listaBusesEspeciales[i].marca} ahora cuesta ${nuevoPrecioSeguro}`);
-}
